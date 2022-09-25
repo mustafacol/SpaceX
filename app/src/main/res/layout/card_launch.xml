@@ -2,9 +2,14 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    android:elevation="8dp"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/launch_card_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_primary">
@@ -20,11 +25,11 @@
             android:id="@+id/imageview_launch_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:padding="8dp"
             android:src="@drawable/rocket_launch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/color_text_icons" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/launch_mission_name"
@@ -33,7 +38,7 @@
             android:layout_marginStart="8dp"
             android:padding="5dp"
             android:text="@string/mission_name"
-            android:textColor="@color/color_text_primary"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/guideline_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/imageview_launch_icon" />
@@ -45,7 +50,7 @@
             android:layout_marginStart="8dp"
             android:padding="5dp"
             android:text="@string/mission_date"
-            android:textColor="@color/color_text_primary"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/imageview_launch_icon"
             app:layout_constraintTop_toBottomOf="@id/guideline_horizontal" />

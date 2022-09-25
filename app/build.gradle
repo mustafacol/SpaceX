@@ -68,6 +68,7 @@ dependencies {
     // Navigation Graph
     implementation "io.insert-koin:koin-androidx-navigation:$koin_android_version"
 
+    implementation 'com.google.code.gson:gson:2.8.9'
 
 }
 

@@ -1,7 +1,12 @@
 package com.mustafacol.spacex.repository
 
+import com.mustafacol.spacex.LaunchListQuery
+import com.mustafacol.spacex.data.LaunchItem
+import com.mustafacol.spacex.data.NetworkResult
+import kotlinx.coroutines.flow.Flow
+
 interface SpacexRepository {
 
-    suspend fun getLauches(offset: Int)
+    suspend fun getLaunches(offset: Int): Flow<NetworkResult<List<LaunchItem>>>
     suspend fun getLaunchDetails(launchId: String)
 }
