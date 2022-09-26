@@ -6,11 +6,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.mustafacol.spacex.R
 import com.mustafacol.spacex.adapter.LaunchesAdapter.LaunchViewHolder
 import com.mustafacol.spacex.data.LaunchItem
+import com.mustafacol.spacex.ui.launch_list.LaunchListFragmentDirections
 import okhttp3.internal.notify
 
 class LaunchesAdapter(private val launchList: List<LaunchItem>) :
@@ -43,6 +45,16 @@ class LaunchesAdapter(private val launchList: List<LaunchItem>) :
             }
             launchName.text = launchItem.missionName
             launchLaunchDate.text = launchItem.launchDateLocal
+
+            launchCardLayout.setOnClickListener {
+                val launchId = launchItem.id!!
+                val action =
+                    LaunchListFragmentDirections.actionLaunchListFragmentToLaunchDetailsFragment()
+                        .apply {
+                            this.launchId = launchId
+                        }
+                itemView.findNavController().navigate(action)
+            }
         }
     }
 

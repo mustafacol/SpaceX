@@ -27,11 +27,12 @@ class LaunchListViewModel(
         viewModelScope.launch {
             spacexRepository.getLaunches(
                 0
-            ).catch {
-                _launchesState.value = LaunchesViewState.Error(it.message.toString())
-            }.collect {
-                it as NetworkResult.Success
-                _launchesState.value = LaunchesViewState.Success(it.data)
+            ).collect {
+                when (it) {
+                    is NetworkResult.Success -> _launchesState.value =
+                        LaunchesViewState.Success(it.data)
+                    is NetworkResult.Failure -> LaunchesViewState.Error(it.throwable.message.toString())
+                }
             }
         }
     }

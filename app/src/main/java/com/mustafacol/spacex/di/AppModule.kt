@@ -36,7 +36,7 @@ val appModule = module {
         LaunchListViewModel(get())
     }
     viewModel {
-        LaunchDetailsViewModel()
+        LaunchDetailsViewModel(get())
     }
     fragment {
         LaunchListFragment()

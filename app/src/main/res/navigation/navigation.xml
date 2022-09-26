@@ -10,9 +10,15 @@
         android:name="com.mustafacol.spacex.ui.launch_list.LaunchListFragment"
         android:label="Launches"
         tools:layout="@layout/fragment_launch_list">
+
         <action
             android:id="@+id/action_launchListFragment_to_launchDetailsFragment"
-            app:destination="@id/launchDetailsFragment" />
+            app:destination="@id/launchDetailsFragment" >
+            <argument
+                android:name="launchId"
+                android:defaultValue=""
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/launchDetailsFragment"
@@ -21,6 +27,9 @@
         tools:layout="@layout/fragment_launch_details">
         <argument
             android:name="launchId"
+            android:defaultValue=""
             app:argType="string" />
     </fragment>
+
+
 </navigation>

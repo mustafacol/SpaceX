@@ -2,4 +2,13 @@
     <string name="app_name">Spacex</string>
     <string name="mission_name">Mission Name</string>
     <string name="mission_date">Mission Date</string>
+    <string name="starship_and_super_heavy_rocket_represent_a_fully_reusable_transportation_system_designed_to_service_all_earth_orbit_needs_as_well_as_the_moon_and_mars_this_two_stage_vehicle_composed_of_the_super_heavy_rocket_booster_and_starship_ship_will_eventually_replace_falcon_9_falcon_heavy_and_dragon">Starship and Super Heavy Rocket represent a fully reusable transportation system designed to service all Earth orbit needs as well as the Moon and Mars. This two-stage vehicle — composed of the Super Heavy rocket (booster) and Starship (ship) — will eventually replace Falcon 9, Falcon Heavy and Dragon.</string>
+    <string name="successful_launch">Successful Launch</string>
+    <string name="launch_date">Launch Date</string>
+    <string name="rocket_name">Rocket Name</string>
+    <string name="rocket_type">Rocket Type</string>
+    <string name="ship_s">Ship(s)</string>
+    <string name="details">DETAILS</string>
+
+
 </resources>

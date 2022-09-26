@@ -9,6 +9,7 @@ query LaunchList(
         sort : $sort,
         order: $order
     ){
+        id
         mission_name,
         launch_date_local,
         links {
