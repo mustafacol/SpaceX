@@ -23,7 +23,7 @@ class LaunchListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var launchList = mutableListOf<LaunchItem>()
-    private val adapter = LaunchesAdapter(launchList)
+    private lateinit var adapter:LaunchesAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,6 +37,9 @@ class LaunchListFragment : Fragment() {
     }
 
     private fun init() {
+        adapter = LaunchesAdapter(launchList){
+            viewmodel.getNextLaunches()
+        }
         binding.recyclerviewLaunches.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerviewLaunches.adapter = adapter

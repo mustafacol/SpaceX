@@ -1,5 +1,6 @@
 package com.mustafacol.spacex.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,15 @@ import com.mustafacol.spacex.R
 import com.mustafacol.spacex.adapter.LaunchesAdapter.LaunchViewHolder
 import com.mustafacol.spacex.data.LaunchItem
 import com.mustafacol.spacex.ui.launch_list.LaunchListFragmentDirections
-import okhttp3.internal.notify
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
-class LaunchesAdapter(private val launchList: List<LaunchItem>) :
+class LaunchesAdapter(
+    private val launchList: List<LaunchItem>,
+    private val onEndOfListReached: (() -> Unit)
+) :
     RecyclerView.Adapter<LaunchViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaunchViewHolder {
@@ -26,6 +33,10 @@ class LaunchesAdapter(private val launchList: List<LaunchItem>) :
     override fun onBindViewHolder(holder: LaunchViewHolder, position: Int) {
         val launchItem = launchList[position]
         holder.bindView(launchItem)
+
+        if (position == launchList.size - 1) {
+            onEndOfListReached.invoke()
+        }
     }
 
     override fun getItemCount(): Int = launchList.size
@@ -44,7 +55,20 @@ class LaunchesAdapter(private val launchList: List<LaunchItem>) :
                 error(R.drawable.rocket_launch)
             }
             launchName.text = launchItem.missionName
-            launchLaunchDate.text = launchItem.launchDateLocal
+
+            launchLaunchDate.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val localDateTime =
+                    LocalDateTime.parse(launchItem.launchDateLocal?.substringBeforeLast("-"))
+                val formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy", Locale.ENGLISH)
+                formatter.format(localDateTime)
+
+            } else {
+                val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                val formatter = SimpleDateFormat("MMMM dd, yyyy")
+                formatter.format(parser.parse(launchItem.launchDateLocal));
+            }
+
+            //launchLaunchDate.text = launchItem.launchDateLocal
 
             launchCardLayout.setOnClickListener {
                 val launchId = launchItem.id!!

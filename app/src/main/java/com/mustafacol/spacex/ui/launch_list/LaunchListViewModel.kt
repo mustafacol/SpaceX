@@ -7,6 +7,7 @@ import com.mustafacol.spacex.data.LaunchItem
 import com.mustafacol.spacex.data.NetworkResult
 import com.mustafacol.spacex.repository.SpacexRepository
 import com.mustafacol.spacex.repository.SpacexRepositoryImpl
+import com.mustafacol.spacex.utils.Constant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -18,23 +19,35 @@ class LaunchListViewModel(
 ) : ViewModel() {
 
 
-    private val _launchesState = MutableStateFlow<LaunchesViewState>(
-        value = LaunchesViewState.Loading
-    )
+    private val _launchesState =
+        MutableStateFlow<LaunchesViewState>(value = LaunchesViewState.Loading)
     val launchesState = _launchesState.asStateFlow()
+    private val _currentPageState = MutableStateFlow(0)
+    private val _isLastPage = MutableStateFlow(false)
 
     fun getLaunches() {
         viewModelScope.launch {
+            if (_isLastPage.value) return@launch
             spacexRepository.getLaunches(
-                0
+                _currentPageState.value * Constant.PAGE_LIMIT
             ).collect {
                 when (it) {
-                    is NetworkResult.Success -> _launchesState.value =
-                        LaunchesViewState.Success(it.data)
+                    is NetworkResult.Success -> {
+                        _launchesState.value =
+                            LaunchesViewState.Success(it.data)
+                        if (it.data.size < Constant.PAGE_LIMIT)
+                            _isLastPage.emit(true)
+                    }
                     is NetworkResult.Failure -> LaunchesViewState.Error(it.throwable.message.toString())
                 }
             }
         }
+    }
+
+    fun getNextLaunches() {
+        _launchesState.value = LaunchesViewState.Loading
+        _currentPageState.value = _currentPageState.value + 1
+        getLaunches()
     }
 
     sealed class LaunchesViewState {
