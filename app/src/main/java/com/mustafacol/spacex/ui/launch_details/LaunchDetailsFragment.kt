@@ -1,12 +1,13 @@
 package com.mustafacol.spacex.ui.launch_details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.mustafacol.spacex.MainActivity
@@ -33,7 +34,6 @@ class LaunchDetailsFragment : Fragment() {
         _binding = FragmentLaunchDetailsBinding.inflate(layoutInflater, container, false)
         launchId = args.launchId
         val view = binding.root
-
         setupObservers()
         viewmodel.getLaunchDetails(launchId)
 
@@ -41,6 +41,9 @@ class LaunchDetailsFragment : Fragment() {
     }
 
     private fun init(launchDetailsItem: LaunchDetailsItem) {
+        (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (requireActivity() as MainActivity).supportActionBar?.setHomeButtonEnabled(true)
+        (requireActivity() as MainActivity).supportActionBar?.title = launchDetailsItem.missionName
 
         setImageSlider(launchDetailsItem)
 

@@ -8,20 +8,19 @@ import com.mustafacol.spacex.data.NetworkResult
 import com.mustafacol.spacex.repository.SpacexRepository
 import com.mustafacol.spacex.repository.SpacexRepositoryImpl
 import com.mustafacol.spacex.utils.Constant
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class LaunchListViewModel(
     private val spacexRepository: SpacexRepository
 ) : ViewModel() {
-
-
     private val _launchesState =
         MutableStateFlow<LaunchesViewState>(value = LaunchesViewState.Loading)
-    val launchesState = _launchesState.asStateFlow()
+    val launchesState = _launchesState.asStateFlow().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(2000),
+        initialValue = _launchesState
+    )
     private val _currentPageState = MutableStateFlow(0)
     private val _isLastPage = MutableStateFlow(false)
 

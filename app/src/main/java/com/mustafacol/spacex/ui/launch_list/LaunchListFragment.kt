@@ -23,7 +23,7 @@ class LaunchListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var launchList = mutableListOf<LaunchItem>()
-    private lateinit var adapter:LaunchesAdapter
+    private lateinit var adapter: LaunchesAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,12 +32,16 @@ class LaunchListFragment : Fragment() {
         val view = binding.root
         init()
         setupObservers()
-        viewmodel.getLaunches()
+        if (launchList.isEmpty())
+            viewmodel.getLaunches()
         return view
     }
 
     private fun init() {
-        adapter = LaunchesAdapter(launchList){
+        (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        (requireActivity() as MainActivity).supportActionBar?.setHomeButtonEnabled(false)
+        (requireActivity() as MainActivity).supportActionBar?.title = "Launch List"
+        adapter = LaunchesAdapter(launchList) {
             viewmodel.getNextLaunches()
         }
         binding.recyclerviewLaunches.layoutManager =
@@ -67,6 +71,7 @@ class LaunchListFragment : Fragment() {
             }
         }
     }
+
 
 }
 
